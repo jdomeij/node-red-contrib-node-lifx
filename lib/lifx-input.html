@@ -1,0 +1,78 @@
+<script type="text/x-red" data-template-name="node-lifx-in">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <br/>
+  <div class="form-row">
+    <label for="node-input-lightID"><i class="fa fa-tag"></i> Lifx ID</label>
+    <input type="text" id="node-input-lightID" placeholder="ID/Label">
+  </div>
+  <br/>
+  <div class="form-row" id="node-on">
+    <label for="node-input-on"><i class="fa fa-power-off"></i> Light On</label>
+    <input type="checkbox" id="node-input-on" style="display: inline-block; width: auto; vertical-align: top;">
+  </div>
+  <div class="form-row">
+    <label for="node-input-rgb">RGB</label>
+    <input type="text" id="node-input-rgb" placeholder="#555555">
+  </div>
+  <div class="form-row">
+    <label for="node-input-hue">Hue</label>
+    <input type="text" id="node-input-hue" placeholder="0">
+  </div>
+  <div class="form-row">
+    <label for="node-input-saturation">Saturation</label>
+    <input type="text" id="node-input-saturation" placeholder="0">
+  </div>
+  <div class="form-row">
+    <label for="node-input-brightness">Brightness</label>
+    <input type="text" id="node-input-brightness" placeholder="0">
+  </div>
+  <br/>
+  <div class="form-row">
+    <label for="node-input-duration">Duration</label>
+    <input type="text" id="node-input-duration" placeholder="duration">
+  </div>
+</script>
+
+
+<script type="text/x-red" data-help-name="node-lifx-in">
+  <p>Set parameters for Lifx light bulb.</p>
+  <p>Input fields</p>
+  <ul>
+    <li><code>on</code> On/Off boolean</li>
+    <li><code>rgb</code> Value using <code>f49242</code> format</li>
+    <li><code>hue</code> Value between <code>0</code> and <code>360</code>°</li>
+    <li><code>saturation</code> Value between <code>0</code> and <code>100</code>%</li></li>
+    <li><code>brightness</code> Value between <code>0</code> and <code>100</code>%</li></li>
+    <li><code>kelvin</code> Value between <code>2500</code> and <code>9000</code>K</li></li>
+    <li><code>duration</code> Transition time, value between <code>0</code> and <code>100000</code> (ms)</li>
+  </ul>
+  <p>The color is determined by first checking <code>rgb</code> then <code>hue</code> or <code>saturation</code> and lastly <code>kelvin</code></p>
+</script>
+
+<script type="text/javascript">
+  RED.nodes.registerType('node-lifx-in',{
+    category: 'input',
+    defaults: {
+      name:       {value: ""},
+      lightID:    {value: "", required:true},
+      on:         {value: true},
+      rgb:        {value: "#555555"},
+      hue:        {value: 0 },
+      saturation: {value: 0 },
+      brightness: {value: 0 },
+      kelvin:     {value: 0 },
+      duration:   {value: 500},
+    },
+    color:   "#f49242",
+    inputs:  1,
+    outputs: 0,
+
+    icon: "light.png",
+    label: function() {
+      return this.name || "Lifx lamp";
+    },
+  });
+</script>

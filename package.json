@@ -1,0 +1,29 @@
+{
+  "name": "node-red-contrib-node-lifx",
+  "version": "0.1.0",
+  "description": "Send data to Lifx lights.",
+  "repository": {},
+  "keywords": [
+    "node-red",
+    "node-red-contrib",
+    "contrib",
+    "lifx"
+  ],
+  "node-red": {
+    "nodes": {
+      "node-lifx-out": "lib/lifx-output.js",
+      "node-lifx-in": "lib/lifx-input.js"
+    }
+  },
+  "author": "stampe123",
+  "license": "MIT",
+  "homepage": "",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "color-convert": "^1.8.2",
+    "kelvin-to-rgb": "^1.0.2",
+    "node-lifx": "^0.7.0",
+    "rgb-hex": "^2.1.0"
+  }
+}

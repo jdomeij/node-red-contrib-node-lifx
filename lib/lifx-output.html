@@ -1,0 +1,44 @@
+<script type="text/x-red" data-template-name="node-lifx-out">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <br/>
+  <div class="form-row">
+    <label for="node-input-lightID"><i class="fa fa-tag"></i> Lifx ID</label>
+    <input type="text" id="node-input-lightID" placeholder="ID/Label">
+  </div>
+</script>
+
+
+<script type="text/x-red" data-help-name="node-lifx-out">
+  <p>Triggers on Lifx lamp change.</p>
+  <p>Output fields</p>
+  <ul>
+    <li><code>on</code> On/Off boolean</li>
+    <li><code>rgb</code> Value using <code>f49242</code> format</li>
+    <li><code>hue</code> Value between <code>0</code> and <code>360</code>°</li>
+    <li><code>saturation</code> Value between <code>0</code> and <code>100</code>%</li></li>
+    <li><code>brightness</code> Value between <code>0</code> and <code>100</code>%</li></li>
+    <li><code>kelvin</code> Value between <code>2500</code> and <code>9000</code>K</li></li>
+    <li><code>duration</code> Transition time, value between <code>0</code> and <code>100000</code> (ms)</li>
+  </ul>
+</script>
+
+<script type="text/javascript">
+  RED.nodes.registerType('node-lifx-out',{
+    category: 'output',
+    defaults: {
+      name:       {value: ""},
+      lightID:    {value: "", required:true},
+    },
+    color:   "#f49242",
+    inputs:  0,
+    outputs: 1,
+
+    icon: "light.png",
+    label: function() {
+      return this.name || "Lifx lamp";
+    },
+  });
+</script>
