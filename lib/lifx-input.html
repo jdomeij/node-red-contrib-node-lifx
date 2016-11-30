@@ -8,32 +8,6 @@
     <label for="node-input-lightID"><i class="fa fa-tag"></i> Lifx ID</label>
     <input type="text" id="node-input-lightID" placeholder="ID/Label">
   </div>
-  <br/>
-  <div class="form-row" id="node-on">
-    <label for="node-input-on"><i class="fa fa-power-off"></i> Light On</label>
-    <input type="checkbox" id="node-input-on" style="display: inline-block; width: auto; vertical-align: top;">
-  </div>
-  <div class="form-row">
-    <label for="node-input-rgb">RGB</label>
-    <input type="text" id="node-input-rgb" placeholder="#555555">
-  </div>
-  <div class="form-row">
-    <label for="node-input-hue">Hue</label>
-    <input type="text" id="node-input-hue" placeholder="0">
-  </div>
-  <div class="form-row">
-    <label for="node-input-saturation">Saturation</label>
-    <input type="text" id="node-input-saturation" placeholder="0">
-  </div>
-  <div class="form-row">
-    <label for="node-input-brightness">Brightness</label>
-    <input type="text" id="node-input-brightness" placeholder="0">
-  </div>
-  <br/>
-  <div class="form-row">
-    <label for="node-input-duration">Duration</label>
-    <input type="text" id="node-input-duration" placeholder="duration">
-  </div>
 </script>
 
 
@@ -42,7 +16,10 @@
   <p>Input fields</p>
   <ul>
     <li><code>on</code> On/Off boolean</li>
-    <li><code>rgb</code> Value using <code>f49242</code> format</li>
+    <li><code>hex</code> Color using hex <code>#f49242</code> format</li>
+    <li><code>red</code> Red channel value <code>0</code> and <code>255</code>°</li>
+    <li><code>green</code> Green channel value <code>0</code> and <code>255</code>°</li>
+    <li><code>blue</code> Blue channel value <code>0</code> and <code>255</code>°</li>
     <li><code>hue</code> Value between <code>0</code> and <code>360</code>°</li>
     <li><code>saturation</code> Value between <code>0</code> and <code>100</code>%</li></li>
     <li><code>brightness</code> Value between <code>0</code> and <code>100</code>%</li></li>
@@ -57,14 +34,7 @@
     category: 'input',
     defaults: {
       name:       {value: ""},
-      lightID:    {value: "", required:true},
-      on:         {value: true},
-      rgb:        {value: "#555555"},
-      hue:        {value: 0 },
-      saturation: {value: 0 },
-      brightness: {value: 0 },
-      kelvin:     {value: 0 },
-      duration:   {value: 500},
+      lightID:    {value: "", required:true },
     },
     color:   "#f49242",
     inputs:  1,

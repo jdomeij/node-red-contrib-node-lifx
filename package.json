@@ -12,7 +12,7 @@
   "node-red": {
     "nodes": {
       "node-lifx-out": "lib/lifx-output.js",
-      "node-lifx-in": "lib/lifx-input.js"
+      "node-lifx-in":  "lib/lifx-input.js"
     }
   },
   "author": "stampe123",
