@@ -12,17 +12,16 @@
   "node-red": {
     "nodes": {
       "node-lifx-out": "lib/lifx-output.js",
-      "node-lifx-in":  "lib/lifx-input.js"
+      "node-lifx-in": "lib/lifx-input.js"
     }
   },
   "author": "stampe123",
   "license": "MIT",
   "homepage": "",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "color-convert": "^1.8.2",
-    "kelvin-to-rgb": "^1.0.2",
+    "color-temp": "0.0.2",
     "node-lifx": "^0.7.0",
     "rgb-hex": "^2.1.0"
   }
