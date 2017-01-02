@@ -1,40 +1,53 @@
 <script type="text/x-red" data-template-name="node-lifx-in">
   <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-globe"></i> Lifx server</label>
+    <input type="text" id="node-input-server" placeholder="Server">
+  </div>
+  <div class="form-row" style="white-space: nowrap;">
+    <label for="node-input-lightID"><i class="fa fa-lightbulb-o"></i> Light ID</label>
+    <div style="display: inline-block; position: relative; width: 70%; height: 20px;">
+      <div style="position: absolute; left: 0px; right: 40px;">
+        <input type="text" id="node-input-lightID" placeholder="ID/Label" style="width: 100%;">
+      </div>
+      <a id="node-input-lookup-lights" class="editor-button" style="position: absolute; right: 0px; top: 0px;"><i class="fa fa-search"></i></a>
+    </div>
+  </div>
+  <div class="form-row">
     <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
     <input type="text" id="node-input-name" placeholder="Name">
   </div>
-  <br/>
-  <div class="form-row">
-    <label for="node-input-lightID"><i class="fa fa-tag"></i> Lifx ID</label>
-    <input type="text" id="node-input-lightID" placeholder="ID/Label">
-  </div>
 </script>
 
-
 <script type="text/x-red" data-help-name="node-lifx-in">
-  <p>Set parameters for Lifx light bulb.</p>
-  <p>Input fields</p>
+  <p>Change state for an Lifx light bulb.</p>
   <ul>
-    <li><code>on</code> On/Off boolean</li>
-    <li><code>hex</code> Color using hex <code>#f49242</code> format</li>
-    <li><code>red</code> Red channel value <code>0</code> and <code>255</code>°</li>
-    <li><code>green</code> Green channel value <code>0</code> and <code>255</code>°</li>
-    <li><code>blue</code> Blue channel value <code>0</code> and <code>255</code>°</li>
-    <li><code>hue</code> Value between <code>0</code> and <code>360</code>°</li>
-    <li><code>saturation</code> Value between <code>0</code> and <code>100</code>%</li></li>
-    <li><code>brightness</code> Value between <code>0</code> and <code>100</code>%</li></li>
-    <li><code>kelvin</code> Value between <code>2500</code> and <code>9000</code>K</li></li>
-    <li><code>duration</code> Transition time, value between <code>0</code> and <code>100000</code> (ms)</li>
+  <li><code>on</code> On/Off boolean</li>
+  <li><code>hue</code> HUE (0-359)</li>
+  <li><code>sat></code>/<code>saturation</code> Saturation (0-100%)</li>
+  <li><code>bri</code>/<code>brightness</code> Brightness number (0-100%)</li>
+
+  <li><code>red</code> Red (0-255)</li>
+  <li><code>green</code> Green (0-255)</li>
+  <li><code>blue</code> Blue (0-255)</li>
+
+  <li><code>hex</code> Hex color</li>
+  
+  <li><code>kelvin</code> Kelvin temperature color (2200-6500)</li>
+  
+  <li><code>delay</code> Transition time (ms)</li>
   </ul>
-  <p>The color is determined by first checking <code>rgb</code> then <code>hue</code> or <code>saturation</code> and lastly <code>kelvin</code></p>
 </script>
 
 <script type="text/javascript">
+/* eslint require-jsdoc: 0 */
+/* eslint-env jquery */
+
   RED.nodes.registerType('node-lifx-in',{
-    category: 'input',
+    category: 'output',
     defaults: {
-      name:       {value: ""},
-      lightID:    {value: "", required:true },
+      server:     {value: "", required: true, type:"node-lifx-server"},
+      name:       {value: "", required: false },
+      lightID:    {value: "", required: true },
     },
     color:   "#f49242",
     inputs:  1,
@@ -44,5 +57,67 @@
     label: function() {
       return this.name || "Lifx lamp";
     },
+    oneditprepare: function() {
+      var htmlID    = '#node-input-lightID';
+      var htmlText  = '<input type="text" id="node-input-lightID" placeholder="Light ID" style="width: 100%;">';
+      var htmlCombo = '<select            id="node-input-lightID" placeholder="Light ID" style="width: 100%;"/>'; 
+
+      function enableCombobox() {
+        var val = $(htmlID).val();
+
+        var serverConfig = RED.nodes.node($('#node-input-server').val());
+        if (serverConfig && serverConfig.id) {
+          $.getJSON('node-lifx/lights', { server: serverConfig.id } )
+            .done(function(data) {
+              // No data returned
+              if(!data || data.length <= 0) {
+                RED.notify("No lights found", "error");
+                return;
+              }
+
+              // If we have value check if it exists in the response
+              if (typeof val === 'string' && val.length && data.find(function(light) { return (light.id === val); }) === undefined) {
+                RED.notify('No matching light found', 'warning');
+                return;
+              }
+
+              // Convert to select
+              $('#node-input-lookup-lights > i').toggleClass('fa-search', false).toggleClass('fa-edit', true);
+              $(htmlID).replaceWith(htmlCombo);
+
+              // Add option
+              var input = $(htmlID);
+              data.forEach(function(light) {
+                input.append($('<option>').val(light.id).text((light.name || light.id ) + ' (' + light.address + ')'));
+              });
+
+              // Mark current value
+              input.val(val);
+            })
+            .fail(function(err) {
+              RED.notify(err.responseText, "error");
+            });
+        }
+      }
+
+      function enableTextbox() {
+        var val = $(htmlID).val();
+
+        // Convert to text
+        $('#node-input-lookup-lights > i').toggleClass('fa-search', true).toggleClass('fa-edit', false);
+        $(htmlID).replaceWith(htmlText);
+
+        // Insert current value
+        $(htmlID).val(val);
+      }
+
+      $('#node-input-lookup-lights').click( function() {
+        if ($(htmlID).attr('type') === 'text') {
+          enableCombobox();
+        } else {
+          enableTextbox();
+        }
+      });
+    }
   });
 </script>
