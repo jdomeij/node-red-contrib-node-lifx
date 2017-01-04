@@ -25,11 +25,11 @@
   <p>Server managing communication with Lifx lights.</p>
   <p><b>Notice:</b> The server by default tries to bind to all addresses which makes it impossible to run multiple servers on the same host</p>
   <ul>
-  <li><b>name</b> Server name</li>
-  <li><b>address</b> Optional address to bind to, makes it possible to run multiple servers</li>
-  <li><b>broadcast</b> Optional broadcast address, uses 255.255.255.255 by default</li>
-  <li><b>lights</b> Optional list of lights (ip addresses)</li>
-  <li><b>interval</b> TODO: Interval that is used to poll lights for changes</li>
+    <li><b>address</b> Optional address to bind to, makes it possible to run multiple servers</li>
+    <li><b>broadcast</b> Optional broadcast address, uses 255.255.255.255 by default</li>
+    <li><b>lights</b> Optional list of lights (ip addresses)</li>
+    <li><b>interval</b> Interval that is used to poll lights for changes (min 500ms)</li>
+    <li><b>name</b> Server name</li>
   </ul>
 </script>
 
@@ -37,7 +37,7 @@
 RED.nodes.registerType('node-lifx-server',{
   category: 'config',
   defaults: {
-    name:      { value: 'Server', required: true  },
+    name:      { value: 'Lifx Server', required: true  },
     address:   { value: null,     required: false },
     broadcast: { value: null,     required: false },
     lights:    { value: null,     required: false },
