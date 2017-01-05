@@ -42,7 +42,7 @@ RED.nodes.registerType('node-lifx-server',{
     broadcast: { value: null,     required: false },
     lights:    { value: null,     required: false },
     interval: { 
-      value: 1000,
+      value: 10000,
       required: true,
       validate: function(v) { 
         return (/^[0-9]+/.test(v) && parseInt(v,10) >= 500); 
