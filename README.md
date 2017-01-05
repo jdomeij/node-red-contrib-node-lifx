@@ -25,7 +25,7 @@ The light is controlled by sending message with an payload containing one or mor
 | `duration` | Transition time (ms) |
 
 
-Example: Sending the following to the light will turn it on and dimm it upp to 77% over 10 seconds
+Example: Sending the following to the light will turn it on and dim it upp to 77% over 10 seconds
 
 ```json
 {
