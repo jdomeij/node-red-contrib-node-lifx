@@ -10,9 +10,19 @@ This module provides input and output nodes for communicating with Lifx lights, 
 * Displays current state for light in Node-Red ui
 
 ### Input node
-The light is controlled by sending message with an payload containing one or more of the following properties to the light
+The light is controlled by sending message with an payload containing the new state
 
-| Property | Value |
+Simplified control by sending the following values as payload
+
+| Value | Info |
+|---|---|
+| `'on'` or `true` | Turn light on |
+| `'off'`or `false` | Turn light off |
+| numeric value | Turn light on and set brightness (0-100%) |
+
+More advanced way to control the light is to send an object payload with one or more of the following properties set
+
+| Property | Info |
 |---|---|
 | `on` | Set light state (true/false)|
 | `red`, `green` and/or `blue` | Set one or more color changel for light (0-255)|
@@ -23,7 +33,6 @@ The light is controlled by sending message with an payload containing one or mor
 | `cr`, `mired` or `mirek` | Set Mired color temperature (153 - 500) |
 | `kelvin` | Set kelvin color temperature (2200-6500) |
 | `duration` | Transition time (ms) |
-
 
 Example: Sending the following to the light will turn it on and dim it upp to 77% over 10 seconds
 
@@ -41,21 +50,22 @@ Example: Sending the following to the light will turn it on and dim it upp to 77
 
 Example output from change event 
 ```json
-{ 
-  "address": "192.168.1.107",
+{
+  "id": "d073d5015103", 
+  "address": "192.168.1.107", 
   "label": "Lifx Black", 
-  "payload": {
+  "payload": { 
     "on": true, 
     "reachable": true, 
-    "mode": "Brightness", 
-    "bri": 69, 
-    "hsv": [ 0, 0, 69 ], 
-    "rgb": [ 175, 175, 175 ], 
-    "hex": "B0B0B0", 
-    "color": "darkgray", 
-    "kelvin": 2500, 
-    "mired": 400 
-  },
+    "bri": 57, 
+    "hsv": [ 169, 37, 57 ], 
+    "rgb": [ 91, 145, 135 ], 
+    "hex": "5C9187", 
+    "color": "cadetblue", 
+    "kelvin": 2513, 
+    "mired": 397
+  }, 
+  "capability": [ "brightness", "color", "temperature" ], 
   ...
 }
 ```
