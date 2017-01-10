@@ -28,11 +28,13 @@ More advanced way to control the light is to send an object payload with one or 
 | `red`, `green` and/or `blue` | Set one or more color changel for light (0-255)|
 | `hex` | Set color (#f49242) |
 | `hue` | Set color hue (0-360) |
-| `sat` | Set color saturation (0-100) | 
-| `bri` | Set light brightness (0-100%) |
+| `sat` or `saturation` | Set color saturation (0-100) | 
+| `bri` or `brightness` | Set light brightness (0-100%) |
 | `cr`, `mired` or `mirek` | Set Mired color temperature (153 - 500) |
 | `kelvin` | Set kelvin color temperature (2200-6500) |
 | `duration` | Transition time (ms) |
+
+**Notice:** to get the same behavioras the Lifx app when modifying the color temperature you will need to manually set the saturation to zero. This is because the Lifx light can adjust temperature and color independent of each other and I didn't want to limit the choices for the user.
 
 Example: Sending the following to the light will turn it on and dim it upp to 77% over 10 seconds
 
