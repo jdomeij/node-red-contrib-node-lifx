@@ -41,11 +41,11 @@ RED.nodes.registerType('node-lifx-server',{
     address:   { value: null,     required: false },
     broadcast: { value: null,     required: false },
     lights:    { value: null,     required: false },
-    interval: { 
+    interval: {
       value: 10000,
       required: true,
-      validate: function(v) { 
-        return (/^[0-9]+/.test(v) && parseInt(v,10) >= 500); 
+      validate: function(v) {
+        return (/^[0-9]+/.test(v) && parseInt(v,10) >= 500);
       },
     },
   },

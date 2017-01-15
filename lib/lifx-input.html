@@ -61,7 +61,7 @@
     oneditprepare: function() {
       var htmlID    = '#node-input-lightID';
       var htmlText  = '<input type="text" id="node-input-lightID" placeholder="Light ID" style="width: 100%;">';
-      var htmlCombo = '<select            id="node-input-lightID" placeholder="Light ID" style="width: 100%;"/>'; 
+      var htmlCombo = '<select            id="node-input-lightID" placeholder="Light ID" style="width: 100%;"/>';
 
       function enableCombobox() {
         var val = $(htmlID).val();
@@ -90,7 +90,7 @@
               var input = $(htmlID);
               data.forEach(function(light) {
                 input.append($('<option>').val(light.id).text(
-                  (light.name || light.id ) + 
+                  (light.name || light.id ) +
                   (light.info ? (' (' + light.info + ')'):'')
                 ));
               });

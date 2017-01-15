@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-node-lifx",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Control Lifx lights.",
   "repository": {},
   "keywords": [
@@ -21,11 +21,12 @@
   "homepage": "",
   "devDependencies": {},
   "dependencies": {
+    "async": "^2.1.4",
     "color-convert": "^1.8.2",
     "color-space": "^1.14.7",
     "color-temp": "0.0.2",
     "enum": "^2.3.0",
     "lodash": "^4.17.3",
-    "node-lifx": "^0.7.0"
+    "node-lifx": "^0.8.0"
   }
 }
