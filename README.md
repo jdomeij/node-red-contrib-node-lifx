@@ -53,9 +53,14 @@ Example: Sending the following to the light will turn it on and dim it upp to 77
 Example output from change event 
 ```json
 {
-  "id": "d073d5015103", 
-  "address": "192.168.1.107", 
-  "label": "Lifx Black", 
+  "id": "d073d5015103",
+  "info": {
+    "id": "d073d5015103",
+    "name": "Lifx Black",
+    "address": "192.168.1.107", 
+    "model": "Original 1000",
+    "capability": ["temperature", "color"]
+  },
   "payload": { 
     "on": true, 
     "reachable": true, 
@@ -66,8 +71,15 @@ Example output from change event
     "color": "cadetblue", 
     "kelvin": 2513, 
     "mired": 397
-  }, 
-  "capability": [ "brightness", "color", "temperature" ], 
-  ...
+  },
+  "state": {
+    "on": true,
+    "brightness": 57,
+    "hue": 169,
+    "saturation": 37,
+    "kelvin": 2513
+  },
+  "event": "change",
+  "_msgid": "cfd24df6.65934"
 }
 ```
