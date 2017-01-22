@@ -1,7 +1,7 @@
 {
   "name": "node-red-contrib-node-lifx",
   "version": "0.8.0",
-  "description": "Node-Red control system for Lifx lights.",
+  "description": "Control Lifx lights using Node-RED.",
   "repository": {},
   "keywords": [
     "node-red",
