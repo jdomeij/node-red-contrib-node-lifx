@@ -9,7 +9,7 @@
     "url": "https://github.com/stampe123/node-red-contrib-node-lifx.git"
   },
   "bugs": {
-    "url" : "https://github.com/stampe123/node-red-contrib-node-lifx/issues"
+    "url": "https://github.com/stampe123/node-red-contrib-node-lifx/issues"
   },
   "keywords": [
     "node-red",
@@ -29,7 +29,7 @@
   "devDependencies": {},
   "dependencies": {
     "async": "^2.1.4",
-    "color-convert": "^1.8.2",
+    "color-convert": "^1.9.0",
     "color-space": "^1.14.7",
     "color-temp": "0.0.2",
     "enum": "^2.3.0",
