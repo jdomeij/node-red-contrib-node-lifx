@@ -7,7 +7,7 @@
     <label for="node-input-lightID"><i class="fa fa-lightbulb-o"></i> Light ID</label>
     <div style="display: inline-block; position: relative; width: 70%; height: 20px;">
       <div style="position: absolute; left: 0px; right: 40px;">
-        <input type="text" id="node-input-lightID" placeholder="ID/Label" style="width: 100%;">
+        <input type="text" id="node-input-lightID" placeholder="Press button to list available lights" style="width: 100%;">
       </div>
       <a id="node-input-lookup-lights" class="editor-button" style="position: absolute; right: 0px; top: 0px;"><i class="fa fa-search"></i></a>
     </div>
@@ -46,9 +46,9 @@
   RED.nodes.registerType('node-lifx-out',{
     category: 'input',
     defaults: {
-      server:     {value: "", required: true, type:"node-lifx-server"},
-      name:       {value: "", required: false },
-      lightID:    {value: "", required: true },
+      server:  { value: "Lifx Server", required: true, type:"node-lifx-server"},
+      name:    { required: false },
+      lightID: { required: true },
     },
     color:   "#f49242",
     inputs:  0,

@@ -3,11 +3,32 @@ An solution to control Lifx lights using Node-Red, uses [node-lifx library](http
 
 This module provides input and output nodes for communicating with Lifx lights, the input node accepts multiple color format and automatically converts the values to the right format. 
 
+
 ### Features
 * Convert input arguments to light specific arguments
 * Trigger events for light changes
 * Self syncing, uses background polling to detect external changes to light
 * Displays current state for light in Node-Red ui
+
+
+### Examples
+##### Dashboard example config:
+This is an example of how to control the light using the [node-red-dashboard](https://github.com/node-red/node-red-dashboard)
+The split node is used to get the `on` and `bri` payload from the light status message, and the join is used to combine the topic and value to an JSON object.
+
+![UI example](./doc/example_ui.png)
+
+##### Wakeup example config:
+Simple example of using an inject node to trigger an wakeup light behavior every workday, the light transitions from off to on with 75% brightness over an duration of 30s.
+
+![Wakeup example](./doc/wakeup.png)
+
+##### Hub Configuration
+![Hub config](./doc/config_server.png)
+
+##### Light Configuration
+![Light config](./doc/config_light.png)
+
 
 ### Input node
 The light is controlled by sending message with an payload containing the new state
@@ -48,6 +69,7 @@ Example: Sending the following to the light will turn it on and dim it upp to 77
 }
 ```
 
+
 ### Output node
 
 Example output from change event 
@@ -84,83 +106,9 @@ Example output from change event
 }
 ```
 
+
 # Using withouth Node-RED
-This library can be used independent from Node-RED, below is an simple example using [MQTT.js](https://github.com/mqttjs/MQTT.js) to enable control an lights on/off status and brightness over MQTT.
+This library can be used independent from Node-RED, the [example/mqtt.js](./example/mqtt.js) file contains an simple example using [MQTT.js](https://github.com/mqttjs/MQTT.js) to enable control an lights on/off status and brightness over MQTT.
 
 The MQTT topic `lights` will contain an list of all currently detected lights.
 Specific light can be controlled by sending an message to the topics `lights/<id>/on` (boolean) or `lights/<id>/brightness` (number) with the new state.
-
-```JavaScript
-var LightServer = require('node-red-contrib-node-lifx');
-var mqtt        = require('mqtt');
-
-var config = {
-  mqtt: 'mqtt://<mqtt server>',
-  server: {
-  }
-}
-
-// List of all detected lights
-var lightsList = {};
-
-var mqttClient  = mqtt.connect(config.mqtt);
-
-// Wait for connection
-mqttClient.on('connect', () => {
-  // List of all detected lights with topic
-  var allLights = [];
-
-  var server = new LightServer(config.server);
-
-  server.on('light-new', (lightInfo) => {
-    var baseTopic = 'lights/' + lightInfo.id;
-    if (lightsList.hasOwnProperty(baseTopic))
-      return;
-    var handle = server.getLightHandler(lightInfo.id);
-
-    // Remember base topic
-    lightsList[baseTopic] = handle;
-
-    // Subscribe to topics
-    mqttClient.subscribe(baseTopic + '/on');
-    mqttClient.subscribe(baseTopic + '/brightness');
-
-    allLights.push({
-      name: lightInfo.info.name,
-      topic: baseTopic
-    });
-
-    // publish list of all detected lights
-    mqttClient.publish('lights', JSON.stringify(allLights), { retain: true} );
-  });
-});
-
-// Handle messages
-mqttClient.on('message', (topic, message) => {
-  var pattern = /^(.*)\/(on|brightness)$/;
-
-  // Check that the pattern match
-  var match;
-  if ((match = pattern.exec(topic)) == null)
-    return;
-
-  // Check so we have the light
-  if (!lightsList.hasOwnProperty(match[1]))
-    return;
-
-  var light = lightsList[match[1]];
-  var data = message.toString();
-
-  if (match[2] === 'on') {
-    if (!/^(true|false)$/.test(data))
-      return;
-    light.setLightState({ 'on': (data === 'true') });
-  }
-
-  else if (match[2] === 'brightness') {
-    if (!/^[0-9]+$/.test(data))
-      return;
-    light.setLightState({ 'brightness': parseInt(data, 10) })
-  }
-});
-```

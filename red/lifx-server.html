@@ -1,15 +1,15 @@
 <script type="text/x-red" data-template-name="node-lifx-server">
   <div class="form-row">
     <label for="node-config-input-address"><i class="fa fa-globe"></i> Address</label>
-    <input type="text" id="node-config-input-address">
+    <input type="text" id="node-config-input-address" placeholder="Optional interface address">
   </div>
   <div class="form-row">
     <label for="node-config-input-broadcast"><i class="fa fa-feed"></i> Broadcast</label>
-    <input type="text" id="node-config-input-broadcast">
+    <input type="text" id="node-config-input-broadcast" placeholder="Optional broadcast address">
   </div>
   <div class="form-row">
     <label for="node-config-input-lights"><i class="fa fa-lightbulb-o"></i> Lights</label>
-    <input type="text" id="node-config-input-lights">
+    <input type="text" id="node-config-input-lights" placeholder="Optional known light addresses">
   </div>
   <div class="form-row">
     <label for="node-config-input-interval"><i class="fa fa-clock-o"></i> Poll interval</label>
@@ -38,9 +38,9 @@ RED.nodes.registerType('node-lifx-server',{
   category: 'config',
   defaults: {
     name:      { value: 'Lifx Server', required: true  },
-    address:   { value: null,     required: false },
-    broadcast: { value: null,     required: false },
-    lights:    { value: null,     required: false },
+    address:   { required: false },
+    broadcast: { required: false },
+    lights:    { required: false },
     interval: {
       value: 10000,
       required: true,

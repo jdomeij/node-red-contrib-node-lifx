@@ -26,8 +26,13 @@ module.exports = function(RED) {
     };
 
     // Create server
-    this.lightServer = new LightServer(config);
-  
+    try {
+      this.lightServer = new LightServer(config);
+    } catch (e) {
+      self.error(e.message, e.stack);
+      return;
+    }
+
     // Create wrapper functions
     this.getLightHandler = this.lightServer.getLightHandler.bind(this.lightServer);
     this.getLights       = this.lightServer.getLights.bind(this.lightServer);
@@ -41,7 +46,7 @@ module.exports = function(RED) {
 
     // Server errors
     this.lightServer.on('error', (msg, obj) => {
-      self.err(msg, obj);
+      self.error(msg, obj);
     });
 
     // Server warnings
@@ -49,7 +54,15 @@ module.exports = function(RED) {
       self.warn(msg, obj);
     });
 
-    lifxServerList[self.id] = self;
+
+    this.lightServer.init((err) => {
+      if (err) {
+        self.error(err.message, err.stack);
+        return;
+      }
+      lifxServerList[self.id] = self;
+    });
+
   }
 
   RED.nodes.registerType("node-lifx-server", LightServerWrapper);
