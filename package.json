@@ -26,7 +26,11 @@
   },
   "main": "lib/lifx-server.js",
   "license": "Apache-2.0",
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-spies": "^0.7.1",
+    "mocha": "^3.2.0"
+  },
   "dependencies": {
     "async": "^2.1.4",
     "color-convert": "^1.9.0",
@@ -35,5 +39,8 @@
     "enum": "^2.3.0",
     "lodash": "^4.17.3",
     "node-lifx": "^0.8.0"
+  },
+  "scripts": {
+    "test": "mocha test"
   }
 }
