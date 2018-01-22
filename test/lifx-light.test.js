@@ -496,8 +496,9 @@ describe('Lifx-Light', () => {
     });
 
     it('Basic test', (done) => {
-      lightItem.pollChanges();
-      done();
+      lightItem.pollChanges((err) => {
+        done(err);
+      });
     });
   });
 
@@ -537,6 +538,62 @@ describe('Lifx-Light', () => {
 
   });
 
+  describe('IR Support: Error Handling', () => {
+    it('getMaxIR init error', (done) => {
+      var lightItem, lifxItem;
+      lifxItem = new LifxEmulator();
+      lifxItem._getHWVerData.productFeatures.infrared = true;
+
+      // Emulate error message from getMaxIR
+      lifxItem.getMaxIR = function(callback) {
+        callback(new Error('test'));
+      };
+
+      lightItem = new LifxLight(lifxItem.id, lifxItem, {});
+      lightItem.initialize((err) => {
+        if (err)
+          return done(err);
+        
+        expect(lightItem.info.getMaxIR_Error).to.be.true;
+        lightItem.stop();
+
+        done();
+      });
+    });
+
+
+    it('getMaxIR poll error', (done) => {
+      var lightItem, lifxItem;
+      lifxItem = new LifxEmulator();
+      lifxItem._getHWVerData.productFeatures.infrared = true;
+
+      // Initialize can call getMaxIR
+      lifxItem.getMaxIR = function(callback) {
+        callback(null, {brightness: 33});
+      };
+
+      lightItem = new LifxLight(lifxItem.id, lifxItem, {});
+      lightItem.initialize((err) => {
+        if (err)
+          return done(err);
+
+        expect(lightItem.info.maxIRLevel).to.equal(33);
+        expect(lightItem.info.getMaxIR_Error).to.be.false;
+
+        // Poll will generate error
+        lightItem.getMaxIR = function(callback) {
+          callback(new Error('test'));
+        };
+
+        lightItem.stop();
+        lightItem.pollChanges((err) => {
+          done(err);
+        })
+      });
+    });
+  });
+
+
   describe('IR Support', () => {
     var lightItem, lifxItem;
     beforeEach((done) => {
@@ -544,7 +601,7 @@ describe('Lifx-Light', () => {
       lifxItem._getHWVerData.productFeatures.infrared = true;
 
       lifxItem.getMaxIR = function(callback) {
-        callback(null, 33);
+        callback(null, { brightness: 33 });
       };
 
       lightItem = new LifxLight(lifxItem.id, lifxItem, {});
@@ -583,9 +640,11 @@ describe('Lifx-Light', () => {
     });
 
     it('pollChanges', (done) => {
-      lightItem.pollChanges();
+      lightItem.pollChanges((err) => {
+        done(err);
+        
+      });
 
-      done();
     });
   });
 });
