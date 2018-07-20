@@ -1,3 +1,4 @@
+/* eslint no-console: off */
 'use strict';
 
 var Lifx = require('node-lifx').Client;
@@ -9,7 +10,7 @@ client.on('error', function(err) {
 });
 
 client.on('light-new', function(light) {
-  light.getHardwareVersion((err, data) => {    
+  light.getHardwareVersion((err, data) => {
     console.log('getHardwareVersion', light.id, err ? err.message : data);
   });
 

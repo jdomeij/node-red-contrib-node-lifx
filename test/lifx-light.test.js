@@ -415,17 +415,7 @@ describe('Lifx-Light', () => {
       done();
     });
 
-    it('false (off)', (done) => {
-      lightItem.setColor(false);
-      expect(lifxItem.off).to.have.been.called();
-      done();
-    });
 
-    it('"off"', (done) => {
-      lightItem.setColor("off");
-      expect(lifxItem.off).to.have.been.called();
-      done();
-    });
 
     it('50 (brightness)', (done) => {
       lightItem.setColor(50);
@@ -449,6 +439,151 @@ describe('Lifx-Light', () => {
       expect(lifxItem.on).to.have.been.called.with.exactly(5000);
       expect(lifxItem.color).to.have.been.called.with.exactly(0, 100, 50, 4000, 0);
       done();
+    });
+
+    describe('Off', () => {
+
+      beforeEach(() => {
+        lightItem.state.on = true;
+      });
+
+      it('false', (done) => {
+        lightItem.setColor(false);
+        expect(lifxItem.on).to.not.have.been.called();
+        expect(lifxItem.off).to.have.been.called();
+        done();
+      });
+
+      it('"off"', (done) => {
+        lightItem.setColor("off");
+        expect(lifxItem.on).to.not.have.been.called();
+        expect(lifxItem.off).to.have.been.called();
+        done();
+      });
+
+      it('{on:false}', (done) => {
+        lightItem.setColor({on:false});
+        expect(lifxItem.on).to.not.have.been.called();
+        expect(lifxItem.off).to.have.been.called();
+        done();
+      });
+
+      it('{on:"false"}', (done) => {
+        lightItem.setColor({on:"false"});
+        expect(lifxItem.on).to.not.have.been.called();
+        expect(lifxItem.off).to.have.been.called();
+        done();
+      });
+
+      it('{on:0}', (done) => {
+        lightItem.setColor({on:0});
+        expect(lifxItem.on).to.not.have.been.called();
+        expect(lifxItem.off).to.have.been.called();
+        done();
+      });
+
+      it('{on:"off"}', (done) => {
+        lightItem.setColor({on:"off"});
+        expect(lifxItem.on).to.not.have.been.called();
+        expect(lifxItem.off).to.have.been.called();
+        done();
+      });
+
+      it('{on:false}', (done) => {
+        lightItem.setColor({on:"false"});
+        expect(lifxItem.on).to.not.have.been.called();
+        expect(lifxItem.off).to.have.been.called();
+        done();
+      });
+    });
+    describe('On', () => {
+      beforeEach(() => {
+        lightItem.state.on = false;
+      });
+
+      it('true', (done) => {
+        lightItem.setColor(true);
+        expect(lifxItem.off).to.not.have.been.called();
+        expect(lifxItem.on).to.have.been.called();
+        done();
+      });
+
+      it('"on"', (done) => {
+        lightItem.setColor("on");
+        expect(lifxItem.off).to.not.have.been.called();
+        expect(lifxItem.on).to.have.been.called();
+        done();
+      });
+
+      it('{on:true}', (done) => {
+        lightItem.setColor({on:true});
+        expect(lifxItem.off).to.not.have.been.called();
+        expect(lifxItem.on).to.have.been.called();
+        done();
+      });
+
+      it('{on:"true"}', (done) => {
+        lightItem.setColor({on:"true"});
+        expect(lifxItem.off).to.not.have.been.called();
+        expect(lifxItem.on).to.have.been.called();
+        done();
+      });
+
+      it('{on:1}', (done) => {
+        lightItem.setColor({on:1});
+        expect(lifxItem.off).to.not.have.been.called();
+        expect(lifxItem.on).to.have.been.called();
+        done();
+      });
+
+      it('{on:"on"}', (done) => {
+        lightItem.setColor({on:"on"});
+        expect(lifxItem.off).to.not.have.been.called();
+        expect(lifxItem.on).to.have.been.called();
+        done();
+      });
+
+      it('{on:true}', (done) => {
+        lightItem.setColor({on:"true"});
+        expect(lifxItem.off).to.not.have.been.called();
+        expect(lifxItem.on).to.have.been.called();
+        done();
+      });
+    });
+
+    describe('Toggle', () => {
+      it('"toggle"  on => off', (done) => {
+        lightItem.state.on = true;
+
+        lightItem.setColor('toggle');
+        expect(lifxItem.on).to.not.have.been.called();
+        expect(lifxItem.off).to.have.been.called();
+        done();
+      });
+      it('"toggle"  off => on', (done) => {
+        lightItem.state.on = false;
+
+        lightItem.setColor('toggle');
+        expect(lifxItem.off).to.not.have.been.called();
+        expect(lifxItem.on).to.have.been.called();
+        done();
+      });
+      it('{on:"toggle"}  on => off', (done) => {
+        lightItem.state.on = true;
+
+        lightItem.setColor({on:'toggle'});
+        expect(lifxItem.on).to.not.have.been.called();
+        expect(lifxItem.off).to.have.been.called();
+        done();
+      });
+      it('{on:"toggle"}  off => on', (done) => {
+        lightItem.state.on = false;
+
+        lightItem.setColor({on:'toggle'});
+        expect(lifxItem.off).to.not.have.been.called();
+        expect(lifxItem.on).to.have.been.called();
+        done();
+      });
     });
   });
 
@@ -632,6 +767,7 @@ describe('Lifx-Light', () => {
       lightItem.setColor({maxIR: 66});
 
       expect(lifxItem.on).not.to.have.been.called();
+      expect(lifxItem.off).not.to.have.been.called();
       expect(lifxItem.color).not.to.have.been.called();
 
       expect(lifxItem.maxIR).to.have.been.called();
