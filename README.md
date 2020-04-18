@@ -1,3 +1,6 @@
+# Deprecation
+This package is currently unmaintained, see [ristomatti/node-red-contrib-node-lifx](https://github.com/ristomatti/node-red-contrib-node-lifx) for current active branch and NPM publisher
+
 # Lifx nodes for Node-Red
 An solution to control Lifx lights over local network using Node-Red, uses [node-lifx library](https://github.com/MariusRumpf/node-lifx) for communicating with the lights.
 
